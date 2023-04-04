@@ -18,7 +18,7 @@
                         <img class="logo" src="images/news.jpg">
                         <h3 class="heading">Admin</h3>
                         <!-- Form Start -->
-                        <form  action="" method ="POST">
+                        <form  action="<?php  $SERVER['PHP_SELF'];?>" method ="POST">
                             <div class="form-group">
                                 <label>Username</label>
                                 <input type="text" name="username" class="form-control" placeholder="" required>
@@ -30,6 +30,26 @@
                             <input type="submit" name="login" class="btn btn-primary" value="login" />
                         </form>
                         <!-- /Form  End -->
+                        <?php
+                            if(isset($_POST['login'])){
+                            include "config.php";
+
+                            $username = mysqli_real_escape_string($conn , $_POST['username']);
+                            $password = md5($_POST['password']);
+                            $sql = "SELECT user_id,username,role from user where username = {$username} AND {$password}";
+                            $result = mysqli_query($conn,$sql) or die("query failed.");
+                            if(mysqli_num_rows($result)>0){
+                                while($row = mysqli_fetch_assoc($result)){
+                                    session_start();
+                                    $_SESSION["username"] = $row['username'];
+                                    $SESSION["user_id"] = $row['user_id'];
+                                    $SESSION["user_role"] = $row['role'];
+                                }
+                            }else{
+                                echo '<div class="alert alert-danger">Username and Password are not matched</div>';
+                            }
+                        }
+                        ?>
                     </div>
                 </div>
             </div>

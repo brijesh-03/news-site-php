@@ -20,7 +20,7 @@
                         $offset = ($page - 1)*$limit ;
                         $sql = "SELECT * FROM USER ORDER BY user_id DESC LIMIT {$offset} , {$limit}";
                         $result = mysqli_query($conn , $sql) or die("query unsuccessful");
-                        if(mysqli_num_rows($result) > 0  ){
+                        if(mysqli_num_rows($result) > 0){
                             
                     ?>
                   <table class="content-table">
